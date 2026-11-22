@@ -1,0 +1,2 @@
+raylib 6.2.0 (installed via NuGet package in Visual Studio)
+Visual Studio Community 2026, C++, x64
