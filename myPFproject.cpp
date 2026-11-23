@@ -62,7 +62,7 @@ float modelTurnFix[NUM_MODELS] = { 0, 0, 180, 0, 0, 0, 0, 0, 0, 0, 180, 0, 0 }; 
 // glow / glass meshes that look like black shapes in raylib. Meshes with exactly these triangle counts are hidden.
 int hideTriangles[NUM_MODELS][2] = { {154, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {0, 0}, {4, 220}, {0, 0}, {0, 0}, {120, 0} }; //hide black things like if any headlights rendering ,it avoids black blocks of that 
 
-// ---- global variables ----
+//  global variables 
 int   gameState = STATE_MENU; // global variable to keep track of the current state of the game like menu, play, pause, result etc. and it is used in the main loop to switch between different states of the game and it is initialized to STATE_MENU so that the game starts with the menu screen
 int   selectedCar = 0; //
 
@@ -104,9 +104,9 @@ float gameTime = 0;                    // seconds since the run started
 float shake = 0, messageTimer = 0;
 char  message[64] = "";
 
-// =====================================================================
+
 // PART 2: small helper functions
-// =====================================================================
+
 float keepInRange(float v, float lo, float hi) { if (v < lo) return lo; if (v > hi) return hi; return v; }
 float mix(float a, float b, float t) { return a + (b - a) * t; }
 
@@ -152,9 +152,9 @@ const char* timeText(float t)
     return TextFormat("%d:%05.2f", m, t - m * 60.0f);
 }
 
-// =====================================================================
+
 // PART 3: asset loading (every file is optional, the game falls back to shapes)
-// =====================================================================
+
 void findResources()
 {
     if (DirectoryExists("resources")) return;
@@ -262,9 +262,9 @@ void unloadAssets()
     if (successSoundLoaded) UnloadSound(successSound);
 }
 
-// =====================================================================
+
 // PART 4: 2D user interface helpers
-// =====================================================================
+
 void drawText(const char* t, float x, float y, float size, Color c)
 {
     DrawTextEx(font, t, Vector2{ x, y }, size, size / 10.0f, c);
@@ -303,9 +303,10 @@ void drawSky()
     DrawRectangleGradientV(0, 0, SCREEN_W, SCREEN_H, Color{ 70, 130, 210, 255 }, Color{ 205, 225, 245, 255 });
 }
 
-// =====================================================================
+
 // PART 5: drawing cars (GLB model if we have it, otherwise simple boxes)
-// =====================================================================
+ 
+
 // draws model i with its bottom-centre at (x,y,z) and rotated yawDeg around Y
 void drawModelAt(int i, float x, float y, float z, float yawDeg, Color tint)
 {
@@ -360,9 +361,8 @@ void drawCar(int modelIdx, float x, float z, float headingRad, Color body)
         drawBoxCar(x, z, headingRad, body, modelLength[modelIdx]);
 }
 
-// =====================================================================
 // PART 6: car physics
-// =====================================================================
+
 void resetCar()
 {
     carX = 0;
@@ -414,9 +414,9 @@ void updateCar(float dt)
     distanceDriven += fabsf(carSpeed) * dt;
 }
 
-// =====================================================================
+
 // PART 7: cameras and engine sound
-// =====================================================================
+
 void moveCamera(float dt, bool snap)
 {
     float fx = sinf(carAngle), fz = -cosf(carAngle);      // forward
@@ -482,9 +482,8 @@ void playEngine()
 
 void stopEngine() { if (engineSoundLoaded) StopMusicStream(engineSound); }
 
-// =====================================================================
+
 // PART 8: HUD (speedometer, gear, camera label)
-// =====================================================================
 void drawSpeedometer()
 {
     float cx = SCREEN_W - 170.0f, cy = SCREEN_H - 150.0f, r = 112.0f;
@@ -524,9 +523,9 @@ void drawBasicHud()
     if (showFps) DrawFPS(20, 20);
 }
 
-// =====================================================================
+
 // PART 9: City Tour data (made from city.glb)
-// =====================================================================
+
 const float CITY_WIDTH = 558.0f;                      // the city is scaled to this width (metres)
 const float CITY_UNITS_WIDTH = 55800.0f, CITY_UNITS_DEPTH = 23400.0f;   // size of city.glb in its own units
 const float DRAW_DISTANCE = 210.0f;                   // buildings further away than this are not drawn
@@ -638,9 +637,8 @@ float tourTime = 0, faultTimer = 0, bestTourTime = 0;
 bool  newTourRecord = false;
 const char* faultName[5] = { "Flat battery", "Engine overheating", "Low engine oil", "Flat tyre", "Out of fuel" };
 
-// =====================================================================
 // PART 10: City Tour logic
-// =====================================================================
+
 // distance from a point to a rectangle (0 if the point is inside)
 float distToBox(float px, float pz, float x0, float z0, float x1, float z1)
 {
@@ -954,9 +952,7 @@ void updateCityTour(float dt)
     }
 }
 
-// =====================================================================
 // PART 11: drawing the city
-// =====================================================================
 void drawCityModel()
 {
     Model* m = &models[CITY_MODEL];
@@ -1082,9 +1078,9 @@ void drawCityWorld()
     EndMode3D();
 }
 
-// =====================================================================
+
 // PART 12: City Tour HUD
-// =====================================================================
+
 void drawCityMinimap(float x, float y, float w)
 {
     float sc = w / cityWidth, h = cityDepth * sc;
@@ -1180,9 +1176,8 @@ void drawCityInfo()
         drawTextCentered(message, cx, 260.0f - (2.0f - keepInRange(messageTimer, 0.0f, 2.0f)) * 10.0f, 40, Fade(Color{ 255, 220, 90, 255 }, keepInRange(messageTimer / 0.5f, 0.0f, 1.0f)));
 }
 
-// =====================================================================
+
 // PART 13: screens (menu, play, pause, result) and main
-// =====================================================================
 // switches between a window and full screen at the size of the monitor (also on the F11 key)
 void toggleFullscreen()
 {
@@ -1285,12 +1280,12 @@ void pauseScreen()
 
 int main()
 {
-    SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT);
+    SetConfigFlags(FLAG_MSAA_4X_HINT | FLAG_VSYNC_HINT); //| FLAG_WINDOW_RESIZABLE means that the window can be resized, but it is not needed here why not needed here as the game is designed to be played in full screen and | symbol is used to combine multiple flags together and flag means a setting or option that can be turned on or off or roman urdu me is ka matlab hai ke ye game me kuch settings ya options hain jo on ya off ki ja sakti hain jese ke MSAA 4X aur VSync. MSAA 4X is a setting that improves the visual quality of the game by reducing jagged edges on objects, while VSync is a setting that synchronizes the game's frame rate with the monitor's refresh rate to prevent screen tearing. The FLAG_WINDOW_RESIZABLE option allows the player to resize the game window, but it is not necessary for this game as it is designed to be played in full screen mode.
     InitWindow(SCREEN_W, SCREEN_H, "City Tour");
     SetExitKey(KEY_NULL);                 // Esc must not close the window
     SetTargetFPS(60);
     toggleFullscreen();                   // the game starts in full screen (F11 switches back)
-    findResources();
+    findResources(); 
     InitAudioDevice();
     loadAssets();
     loadBestTour();
